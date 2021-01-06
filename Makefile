@@ -10,12 +10,12 @@ SHELL 		= /bin/sh
 
 NAME		   = NTuple
 
-LIB_DIR 	   = $(HOME)/lib
+LIB_DIR 	   = /softwares/lib
 
 ROOTLIBS    := $(shell root-config --libs)
 ROOTINC     := -I$(shell root-config --incdir)
 
-COMM_DIR 	= $(HOME)/CommandLineInterface
+COMM_DIR 	= /softwares/CommandLineInterface
 
 INCLUDES    = -I$(COMM_DIR) -I.
 
