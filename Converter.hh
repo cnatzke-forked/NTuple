@@ -72,6 +72,8 @@ private:
     void FillHistDetector1DGammaNR(TH1F* hist1D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
     void FillHistDetector2DGammaGammaNR(TH2F* hist2D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
 
+    void FillHistDetectorNDGammaGammaNR(THnSparseF* histND, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
+
     void FillHist2DGriffinSceptarHitPattern(TH2F* hist2D, std::vector<Detector>* detector1, std::vector<Detector>* detector2, std::string hist_name, std::string hist_dir);
     void FillHist2DGriffinHitPattern(TH2F* hist2D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
 
