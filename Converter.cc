@@ -2142,6 +2142,15 @@ void Converter::FillHistDetector2DGammaGammaNR(TH2F* hist2D, std::vector<Detecto
 // being CRN
 void Converter::FillHistDetectorNDGammaGammaNR(THnSparseF* histND, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir) {
     if(fSettings->WriteNDHist()) {
+
+        int cry1 = 0;
+        double cry1energy = 0;
+        int cry2 = 0;
+        double cry2energy = 0;
+        double angle = 0;
+        double norm = 0;
+        int index = 0;
+
         for(size_t firstDet = 0; firstDet < detector->size(); ++firstDet) {
             // add-back 0 deg hits
             if(fGriffinCrystal->size()==1) {
@@ -2149,15 +2158,15 @@ void Converter::FillHistDetectorNDGammaGammaNR(THnSparseF* histND, std::vector<D
                 histND->Fill(fillval);         //1.0/64);
             }
             for(size_t secondDet = firstDet+1; secondDet < detector->size(); ++secondDet) {
-                double cry1energy  = fGriffinCrystal->at(firstDet).SimulationEnergy();
-                int cry1 = fGriffinCrystal->at(firstDet).CrystalId();
-                double cry2energy  = fGriffinCrystal->at(secondDet).SimulationEnergy();
-                int cry2 = fGriffinCrystal->at(secondDet).CrystalId();
-                double angle = GriffinCryMap[(int)((4*fGriffinCrystal->at(firstDet).DetectorId())+fGriffinCrystal->at(firstDet).CrystalId())][(int)((4*fGriffinCrystal->at(secondDet).DetectorId())+fGriffinCrystal->at(secondDet).CrystalId())];
+                cry1energy  = fGriffinCrystal->at(firstDet).SimulationEnergy();
+                cry1 = fGriffinCrystal->at(firstDet).CrystalId();
+                cry2energy  = fGriffinCrystal->at(secondDet).SimulationEnergy();
+                cry2 = fGriffinCrystal->at(secondDet).CrystalId();
+                angle = GriffinCryMap[(int)((4*fGriffinCrystal->at(firstDet).DetectorId())+fGriffinCrystal->at(firstDet).CrystalId())][(int)((4*fGriffinCrystal->at(secondDet).DetectorId())+fGriffinCrystal->at(secondDet).CrystalId())];
                 for(int i = 0; i < 52; i++) {
                     if(GriffinCryMapCombos[i][0] == angle) {
-                        double norm = (double)GriffinCryMapCombos[i][1];
-                        int index = i;
+                        norm = (double)GriffinCryMapCombos[i][1];
+                        index = i;
                         break;
                     }
                 }
