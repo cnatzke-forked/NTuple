@@ -806,7 +806,7 @@ bool Converter::Run() {
 
             // begin CRN
             // GRIFFIN Crystal GGAC Raw Energy
-            FillHistDetectorNDGammaGammaNR(hist2D, fGriffinCrystal, "griffin_crystal_unsup_gamma_gamma_corr_edep_cry_sparse_raw", "Raw_GriffinND");
+            FillHistDetectorNDGammaGammaNR(histND, fGriffinCrystal, "griffin_crystal_unsup_gamma_gamma_corr_edep_cry_sparse_raw", "Raw_GriffinND");
             // end CRN
 
             if(fSceptarHit) {
@@ -2142,6 +2142,17 @@ void Converter::FillHistDetector2DGammaGammaNR(TH2F* hist2D, std::vector<Detecto
 // being CRN
 void Converter::FillHistDetectorNDGammaGammaNR(THnSparseF* histND, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir) {
     if(fSettings->WriteNDHist()) {
+        int cry1 = 0;
+        int cry2 = 0;
+        int det1 = 0;
+        int det2 = 0;
+        int index = 0;
+        double cry1energy = 0;
+        double cry2energy = 0;
+        double det1energy = 0;
+        double det2energy = 0;
+        double angle = 0;
+        double norm = 0;
         for(size_t firstDet = 0; firstDet < detector->size(); ++firstDet) {
             // add-back 0 deg hits
             if(fGriffinCrystal->size()==1) {
