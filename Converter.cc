@@ -2143,9 +2143,7 @@ void Converter::FillHistDetector2DGammaGammaNR(TH2F* hist2D, std::vector<Detecto
 void Converter::FillHistDetectorNDGammaGammaNR(THnSparseF* histND, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir) {
     if(fSettings->WriteNDHist()) {
 
-        int cry1 = 0;
         double cry1energy = 0;
-        int cry2 = 0;
         double cry2energy = 0;
         double angle = 0;
         double norm = 0;
@@ -2154,39 +2152,39 @@ void Converter::FillHistDetectorNDGammaGammaNR(THnSparseF* histND, std::vector<D
         for(size_t firstDet = 0; firstDet < detector->size(); ++firstDet) {
             // add-back 0 deg hits
             if(fGriffinCrystal->size()==1) {
-                Double_t fillval[3] = {fGriffinCrystal->at(0).SimulationEnergy(), fGriffinCrystal->at(0).SimulationEnergy(),0.0};
-                histND->Fill(fillval);         //1.0/64);
+                Double_t fillval[3] = {fGriffinCrystal->at(0).SimulationEnergy(), fGriffinCrystal->at(0).SimulationEnergy(), 0.0};
+                histND = GetNDHistogram(hist_name, hist_dir);
+                histND->Fill(fillval);
             }
             for(size_t secondDet = firstDet+1; secondDet < detector->size(); ++secondDet) {
-                cry1energy  = fGriffinCrystal->at(firstDet).SimulationEnergy();
-                cry1 = fGriffinCrystal->at(firstDet).CrystalId();
-                cry2energy  = fGriffinCrystal->at(secondDet).SimulationEnergy();
-                cry2 = fGriffinCrystal->at(secondDet).CrystalId();
-                angle = GriffinCryMap[(int)((4*fGriffinCrystal->at(firstDet).DetectorId())+fGriffinCrystal->at(firstDet).CrystalId())][(int)((4*fGriffinCrystal->at(secondDet).DetectorId())+fGriffinCrystal->at(secondDet).CrystalId())];
-                for(int i = 0; i < 52; i++) {
+                   cry1energy  = fGriffinCrystal->at(firstDet).SimulationEnergy();
+                   cry2energy  = fGriffinCrystal->at(secondDet).SimulationEnergy();
+                   angle = GriffinCryMap[(int)((4*fGriffinCrystal->at(firstDet).DetectorId())+fGriffinCrystal->at(firstDet).CrystalId())][(int)((4*fGriffinCrystal->at(secondDet).DetectorId())+fGriffinCrystal->at(secondDet).CrystalId())];
+                   for(int i = 0; i < 52; i++) {
                     if(GriffinCryMapCombos[i][0] == angle) {
                         norm = (double)GriffinCryMapCombos[i][1];
                         index = i;
                         break;
                     }
-                }
-                if(cry1energy == 0 || cry2energy == 0 || norm == 0) {
+                   }
+                   if(cry1energy == 0 || cry2energy == 0 || norm == 0) {
                     std::cout << "error, didn't find something" << std::endl;
                     std::cout << "cry1energy = " << cry1energy << std::endl;
                     std::cout << "cry2energy = " << cry2energy << std::endl;
                     std::cout << "norm = " << norm << std::endl;
                     std::cout << "angle = " << angle << std::endl;
-                }
-                Double_t fillval2[3] = {fGriffinCrystal->at(firstDet).SimulationEnergy(), fGriffinCrystal->at(secondDet).SimulationEnergy(),(double)index};
-                Double_t fillval3[3] = {fGriffinCrystal->at(secondDet).SimulationEnergy(), fGriffinCrystal->at(firstDet).SimulationEnergy(),(double)index};
-                histND->Fill(fillval2);         //1.0/64);
-                histND->Fill(fillval3);         //1.0/64);
-                cry1 = 0;
-                cry2 = 0;
-                cry1energy = 0;
-                cry2energy = 0;
-                angle = 0;
-                norm = 0;
+                   }
+                   Double_t fillval2[3] = {fGriffinCrystal->at(firstDet).SimulationEnergy(), fGriffinCrystal->at(secondDet).SimulationEnergy(),(double)index};
+                   Double_t fillval3[3] = {fGriffinCrystal->at(secondDet).SimulationEnergy(), fGriffinCrystal->at(firstDet).SimulationEnergy(),(double)index};
+
+                   // filling histograms
+                   histND = GetNDHistogram(hist_name, hist_dir);
+                   histND->Fill(fillval2);         //1.0/64);
+                   histND->Fill(fillval3);         //1.0/64);
+                   cry1energy = 0;
+                   cry2energy = 0;
+                   angle = 0;
+                   norm = 0;
             }
         }
     }
