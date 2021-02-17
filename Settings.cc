@@ -10,7 +10,7 @@ Settings::Settings(std::string fileName, int verbosityLevel)
 
     //  env.PrintEnv();
 
-    fNtupleName = env.GetValue("NtupleName","/ntuple");
+    fNtupleName = env.GetValue("NtupleName","/ntuple/ntuple");
 
     fBufferSize = env.GetValue("BufferSize",1024000);
 
