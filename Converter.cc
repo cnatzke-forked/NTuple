@@ -1375,7 +1375,8 @@ bool Converter::Run() {
             fCryNumber = 0;
         }
         //create energy-resolution smeared energy
-        smearedEnergy = fRandom.Gaus(fDepEnergy,fSettings->Resolution(fSystemID,fDetNumber,fCryNumber,fDepEnergy));
+        smearedEnergy = fDepEnergy;
+        //smearedEnergy = fRandom.Gaus(fDepEnergy,fSettings->Resolution(fSystemID,fDetNumber,fCryNumber,fDepEnergy));
 
         if((fSettings->SortNumberOfEvents()==0)||(fSettings->SortNumberOfEvents()>=fEventNumber) ) {
             //if the hit is above the threshold, we add it to the vector
